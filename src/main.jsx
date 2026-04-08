@@ -46,29 +46,29 @@ function addMessage(role, content) {
   messages.scrollTop = messages.scrollHeight;
 }
 
-function fakeReply(text) {
-  const lower = text.toLowerCase();
+async function realReply(text) {
+  try {
+    const res = await fetch("/api/chat", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ message: text }),
+    });
 
-  let reply = "Analiza: wygląda to ciekawie, ale potrzebuję więcej danych o kursach i statystykach.";
+    const data = await res.json();
 
-  if (lower.includes("co gramy")) {
-    reply = "Propozycja: szukaj value tam, gdzie kurs jest zawyżony względem formy, kontuzji i statystyk.";
-  } else if (lower.includes("statystyki")) {
-    reply = "Podeślij: forma 5 meczów, gole, xG, H2H, kontuzje i kursy bukmachera.";
-  } else if (lower.includes("kurs")) {
-    reply = "Sprawdzę, czy kurs jest zawyżony. Podeślij kurs 1X2, over/under i ewentualnie BTS.";
+    addMessage("assistant", data.reply || "Brak odpowiedzi z API.");
+  } catch (error) {
+    addMessage("assistant", "Błąd połączenia z API.");
   }
-
-  setTimeout(() => {
-    addMessage("assistant", reply);
-  }, 700);
 }
 
 function sendMessage(text) {
   if (!text.trim()) return;
   addMessage("user", text);
   input.value = "";
-  fakeReply(text);
+  realReply(text);
 }
 
 sendBtn.addEventListener("click", () => {
