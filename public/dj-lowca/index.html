@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#101522">
+  <meta name="description" content="DJ FOKU$ Łowca Zleceń — darmowy panel do oceniania ogłoszeń i przygotowywania komentarzy.">
+  <title>DJ FOKU$ | Łowca Zleceń</title>
+  <link rel="stylesheet" href="./style.css">
+  <script src="./app.js" defer></script>
+</head>
+<body>
+<div class="shell">
+  <aside class="sidebar">
+    <div class="brand"><div class="brand-icon">F<span>$</span></div><div><strong>DJ FOKU$</strong><small>ŁOWCA ZLECEŃ</small></div></div>
+    <div class="nav-caption">PANEL</div>
+    <nav aria-label="Nawigacja">
+      <a class="nav-link active" href="#pulpit">◎ <span>Pulpit</span></a>
+      <a class="nav-link" href="#dodaj">✚ <span>Dodaj ogłoszenie</span></a>
+      <a class="nav-link" href="#zlecenia">▤ <span>Moje zlecenia</span></a>
+      <a class="nav-link" href="#ustawienia">⚙ <span>Ustawienia</span></a>
+    </nav>
+    <div class="side-note"><span class="status-dot"></span> Tryb bezpieczny — ręczna akceptacja<br><small>Bez dostępu do Twojego konta FB</small></div>
+  </aside>
+
+  <main class="main" id="pulpit">
+    <header class="topbar">
+      <div><p class="eyebrow">TWOJE CENTRUM ZLECEŃ</p><h1>Łowca <em>Zleceń</em> <span class="version">V1.0</span></h1><p class="subtitle">Znajdź ogłoszenie na Facebooku, wklej treść i przygotuj odpowiedź w kilka sekund.</p></div>
+      <a class="btn btn-primary top-action" href="#dodaj">＋ Dodaj ogłoszenie</a>
+    </header>
+
+    <section class="region-strip" aria-label="Obsługiwane obszary">
+      <span class="region-label">OBSZAR DZIAŁANIA</span>
+      <span class="region-pill">Zachodniopomorskie</span>
+      <span class="region-pill">Wielkopolskie</span>
+      <span class="region-pill">Lubuskie</span>
+      <span class="region-pill">Śląskie</span>
+    </section>
+
+    <section class="stats" aria-label="Statystyki">
+      <div class="stat"><div class="stat-top">Zapisane ogłoszenia <span>▤</span></div><strong id="stat-total">0</strong><small>W Twoim rejestrze</small></div>
+      <div class="stat"><div class="stat-top">Wysoki priorytet <span>⚡</span></div><strong id="stat-hot">0</strong><small>Warto odpowiedzieć szybko</small></div>
+      <div class="stat"><div class="stat-top">W trakcie rozmowy <span>◉</span></div><strong id="stat-talk">0</strong><small>Potencjalni klienci</small></div>
+      <div class="stat"><div class="stat-top">Zdobyte zlecenia <span>✓</span></div><strong id="stat-won">0</strong><small>Oznaczone jako wygrane</small></div>
+    </section>
+
+    <section class="two-col">
+      <div class="panel" id="dodaj">
+        <div class="panel-head"><div><span class="eyebrow">NOWA SZANSA</span><h2>Przeanalizuj ogłoszenie</h2></div><span class="tag">Bez AI API • 0 zł</span></div>
+        <p class="hint">Wklej treść posta z Facebooka. Nasze reguły sprawdzą, czy dotyczy poszukiwania DJ-a, rozpoznają typ imprezy i przygotują komentarz.</p>
+        <form id="lead-form" autocomplete="off">
+          <label for="post-text">Treść ogłoszenia <b>*</b></label>
+          <textarea id="post-text" rows="6" maxlength="5000" required placeholder="Np. Hej, szukam DJ-a na wesele w lipcu 2027 w okolicy Poznania. Czy kogoś polecacie?"></textarea>
+          <div class="form-row">
+            <div><label for="post-url">Link do posta (opcjonalnie)</label><input id="post-url" type="url" maxlength="1800" placeholder="https://www.facebook.com/..."></div>
+            <div><label for="post-region">Województwo</label><select id="post-region"><option value="auto">Rozpoznaj automatycznie</option><option value="zachodniopomorskie">Zachodniopomorskie</option><option value="wielkopolskie">Wielkopolskie</option><option value="lubuskie">Lubuskie</option><option value="slaskie">Śląskie</option><option value="nieznane">Nieustalone</option></select></div>
+          </div>
+          <div class="actions"><button class="btn btn-primary" type="submit">⚡ Oceń i zapisz</button><button class="btn btn-quiet" id="demo-btn" type="button">Wstaw przykład</button></div>
+          <p class="form-feedback" id="form-feedback" role="status" aria-live="polite"></p>
+        </form>
+      </div>
+      <div class="panel search-panel">
+        <div class="panel-head"><div><span class="eyebrow">SZYBKIE SZUKANIE</span><h2>Wyszukaj klientów</h2></div><span class="tag muted-tag">Facebook</span></div>
+        <p class="hint">Kliknij hasło, a otworzy się wyszukiwanie Facebooka. Posty wyszukujesz samodzielnie — program nie pobiera ich automatycznie.</p>
+        <div id="search-shortcuts" class="shortcuts"></div>
+        <div class="advice"><strong>Jak być szybszym?</strong><p>Na Facebooku dołącz do lokalnych grup weselnych i „Spotted”, ustaw powiadomienia o nowych postach. Znaleziony wpis przeklej tutaj, a gotową odpowiedź skopiuj jednym kliknięciem.</p></div>
+        <p class="legal-note">Facebook wycofał oficjalne API grup. Nie logujemy się na Twoje konto, nie publikujemy komentarzy automatycznie i nie obiecujemy monitoringu 24/7.</p>
+      </div>
+    </section>
+
+    <section class="panel leads-panel" id="zlecenia">
+      <div class="panel-head leads-title"><div><span class="eyebrow">TWOJA BAZA</span><h2>Ogłoszenia i odpowiedzi</h2></div><span class="tag" id="visible-count">0 wyników</span></div>
+      <div class="filters">
+        <input id="filter-query" type="search" placeholder="Szukaj po treści ogłoszenia…" aria-label="Szukaj w ogłoszeniach">
+        <select id="filter-region" aria-label="Filtr województwa"><option value="all">Wszystkie regiony</option><option value="zachodniopomorskie">Zachodniopomorskie</option><option value="wielkopolskie">Wielkopolskie</option><option value="lubuskie">Lubuskie</option><option value="slaskie">Śląskie</option><option value="nieznane">Nieustalone</option></select>
+        <select id="filter-status" aria-label="Filtr statusu"><option value="all">Wszystkie statusy</option><option value="nowe">Nowe</option><option value="odpisane">Skomentowane</option><option value="rozmowa">W rozmowie</option><option value="wygrane">Zdobyte</option><option value="odrzucone">Odrzucone</option></select>
+      </div>
+      <div id="leads-list" class="leads-list"><div class="empty"><div class="empty-icon">◎</div><h3>Jeszcze nie masz ogłoszeń</h3><p>Wklej pierwszy post w formularzu powyżej. Wszystko zostanie zachowane lokalnie w tej przeglądarce.</p></div></div>
+    </section>
+
+    <section class="panel settings-panel" id="ustawienia">
+      <div class="panel-head"><div><span class="eyebrow">PERSONALIZACJA I KOPIA</span><h2>Ustawienia</h2></div></div>
+      <div class="form-row">
+        <div><label for="setting-signature">Podpis pod komentarzem</label><input id="setting-signature" maxlength="80" value="DJ FOKU$"></div>
+        <div><label for="setting-phone">Telefon (opcjonalnie)</label><input id="setting-phone" type="tel" maxlength="40" placeholder="Numer do kontaktu"></div>
+      </div>
+      <label class="check-line"><input id="setting-use-phone" type="checkbox"> Dołączaj telefon do nowych odpowiedzi</label>
+      <div class="actions">
+        <button class="btn btn-quiet" type="button" id="export-btn">↓ Pobierz kopię JSON</button>
+        <label for="import-file" class="btn btn-quiet file-button">↑ Wczytaj kopię JSON</label><input id="import-file" type="file" accept=".json,application/json" hidden>
+        <button class="btn btn-danger" type="button" id="clear-btn">Usuń moje dane</button>
+      </div>
+      <p class="hint">Twoje dane są zapisane tylko w tej przeglądarce (localStorage). Nie synchronizują się między telefonem i komputerem. Pobierz kopię przed czyszczeniem przeglądarki lub zmianą urządzenia. Nie wpisuj danych, których nie możesz legalnie przechowywać.</p>
+    </section>
+    <footer>DJ FOKU$ Łowca Zleceń • Lokalny, darmowy panel • Zero automatycznego publikowania</footer>
+  </main>
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+</body>
+</html>
